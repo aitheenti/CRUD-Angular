@@ -14,19 +14,23 @@ export class EmployeeComponent implements OnInit {
   constructor(private employeeService : EmployeeService, private toastr : ToastrService) { }
 
   ngOnInit() {
-    this.employeeService.getData();
     this.resetForm();
   }
 
-  onSubmit(emplyeeForm: NgForm) {
-    this.employeeService.insertEmployee(emplyeeForm.value);
-    this.resetForm(emplyeeForm);
+  onSubmit(employeeForm: NgForm) {
+    if(employeeForm.value.$key == null)
+    this.employeeService.insertEmployee(employeeForm.value);
+    else
+    this.employeeService.updateEmployee(employeeForm.value);
+    this.resetForm(employeeForm);
     this.toastr.success('Submitted Successfully', 'Employee Register')
   }
 
-  resetForm(emplyeeForm? : NgForm) {
-    if(emplyeeForm!= null)
-    emplyeeForm.reset();
+  
+
+  resetForm(employeeForm? : NgForm) {
+    if(employeeForm!= null)
+    employeeForm.reset();
     this.employeeService.selectedEmployee = {
       $key: null,
       name: '',
